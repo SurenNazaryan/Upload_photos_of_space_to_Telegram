@@ -1,8 +1,7 @@
 import requests
 import os
 from dotenv import load_dotenv
-from get_file_format import get_file_format
-from file_writing import file_writing
+from working_with_files import file_writing, get_file_format
 from http_utils import fetch_response, fetch_response_data
 
 
