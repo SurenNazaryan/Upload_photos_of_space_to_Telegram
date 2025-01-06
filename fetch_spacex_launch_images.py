@@ -23,7 +23,8 @@ if __name__ == '__main__':
         description='Получение фото запуска и их скачивание'
     )
     parser.add_argument(
-        '--launch_id', type=str,
+        '--launch_id',
+        type=str,
         help='ID запуска',
         default='latest'
     )
