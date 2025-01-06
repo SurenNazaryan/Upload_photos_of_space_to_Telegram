@@ -3,6 +3,8 @@ import time
 import os
 from dotenv import load_dotenv
 import random
+import argparse
+from natsort import natsorted
 
 
 def image_publication(directory, image_list):
@@ -19,7 +21,7 @@ def image_publication(directory, image_list):
 
 
 def main(directory):
-    image_list = os.listdir(directory)
+    image_list = natsorted(os.listdir(directory))
     image_publication(directory, image_list)
     while True:
         random.shuffle(image_list)
@@ -28,5 +30,13 @@ def main(directory):
 
 if __name__ == "__main__":
     load_dotenv()
-    directory = 'nasa_apod_images'
-    main(directory)
+    parser = argparse.ArgumentParser(
+        description='Публикация всех фотографий'
+    )
+    parser.add_argument(
+        'directory',
+        type=str,
+        help='Путь к директории с изображениями',
+    )
+    args = parser.parse_args()
+    main(args.directory)
