@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import random
 import argparse
+from working_with_files import true_file_size
 
 
 def image_publication(directory, image):
