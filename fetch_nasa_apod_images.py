@@ -1,26 +1,28 @@
 import requests
 import os
 from dotenv import load_dotenv
-from working_with_files import file_writing, get_file_format
-from http_utils import fetch_response, fetch_response_data
+from working_with_files import writing_file, get_file_format
 
 
 def fetch_nasa_apod(token):
     url = 'https://api.nasa.gov/planetary/apod'
+    files_count = 50
     params = {
-        'count': 50,
+        'count': files_count,
         'api_key': token
     }
-    response_data = fetch_response_data(url, params)
+    response = requests.get(url, params)
+    response.raise_for_status()
+    response = response.json()
     directory = 'nasa_apod_images'
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    for index, image in enumerate(response_data, start=1):
+    os.makedirs(directory, exist_ok=True)
+    for index, image in enumerate(response, start=1):
         image_url = image['url']
         if get_file_format(image_url) == '.jpg':
-            response = fetch_response(image_url, params=None)
-            filename = f'nasa_apod_image_{index}.jpg'
-            file_writing(directory, filename, response)
+            response = requests.get(image_url)
+            response.raise_for_status()
+            file_name = f'nasa_apod_{index}.jpg'
+            writing_file(directory, file_name, response)
 
 
 if __name__ == '__main__':
